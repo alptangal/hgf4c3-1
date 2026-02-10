@@ -70,9 +70,9 @@ def myStyle(log_queue):
     @tasks.loop(minutes=1)
     async def keepHfLive(guild):
         global processed_thread, mb, st, pause_watching
-        print(f"getTransMb is {'running' if not pause_watching else 'paused'}")
+        print(f"keepHfLive is {'running' if not pause_watching else 'paused'}")
         log_queue.put(
-            ("info", f"getTransMb is {'running' if not pause_watching else 'paused'}")
+            ("info", f"keepHfLive is {'running' if not pause_watching else 'paused'}")
         )
         for category in guild.categories:
             if category.name == "huggingface":
@@ -114,6 +114,35 @@ def myStyle(log_queue):
                                     async with aiohttp.ClientSession() as session:
                                         async with session.get(
                                             url,
+                                            headers={
+                                                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Trailer/93.3.3570.29",
+                                            },
+                                        ) as response:
+                                            if response.status < 400:
+                                                print(f"{space_url} ping success")
+                                            else:
+                                                print(f"{space_url} ping fail")
+                            elif ".hf.space/" in msg.content:
+                                if " || " in msg.content:
+                                    space_url = msg.content.split(" || ")[0].strip()
+                                    authorization = msg.content.split(" || ")[1].strip()
+                                    async with aiohttp.ClientSession() as session:
+                                        async with session.get(
+                                            space_url,
+                                            headers={
+                                                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Trailer/93.3.3570.29",
+                                                "authorization": f"Bearer {authorization}",
+                                            },
+                                        ) as response:
+                                            if response.status < 400:
+                                                print(f"{space_url} ping success")
+                                            else:
+                                                print(f"{space_url} ping fail")
+                                else:
+                                    space_url = msg.content.strip()
+                                    async with aiohttp.ClientSession() as session:
+                                        async with session.get(
+                                            space_url,
                                             headers={
                                                 "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Trailer/93.3.3570.29",
                                             },
