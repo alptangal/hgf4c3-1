@@ -100,8 +100,17 @@ def myStyle(log_queue):
                                         ) as response:
                                             if response.status < 400:
                                                 print(f"{space_url} ping success")
+                                                log_queue.put(
+                                                    (
+                                                        "info",
+                                                        f"{space_url} ping success",
+                                                    )
+                                                )
                                             else:
                                                 print(f"{space_url} ping fail")
+                                                log_queue.put(
+                                                    ("error", f"{space_url} ping fail")
+                                                )
                                 else:
                                     space_url = msg.content.strip()
                                     username = space_url.split("/spaces/")[1].split(
@@ -120,8 +129,17 @@ def myStyle(log_queue):
                                         ) as response:
                                             if response.status < 400:
                                                 print(f"{space_url} ping success")
+                                                log_queue.put(
+                                                    (
+                                                        "info",
+                                                        f"{space_url} ping success",
+                                                    )
+                                                )
                                             else:
                                                 print(f"{space_url} ping fail")
+                                                log_queue.put(
+                                                    ("error", f"{space_url} ping fail")
+                                                )
                             elif ".hf.space/" in msg.content:
                                 if " || " in msg.content:
                                     space_url = msg.content.split(" || ")[0].strip()
@@ -136,8 +154,17 @@ def myStyle(log_queue):
                                         ) as response:
                                             if response.status < 400:
                                                 print(f"{space_url} ping success")
+                                                log_queue.put(
+                                                    (
+                                                        "info",
+                                                        f"{space_url} ping success",
+                                                    )
+                                                )
                                             else:
                                                 print(f"{space_url} ping fail")
+                                                log_queue.put(
+                                                    ("error", f"{space_url} ping fail")
+                                                )
                                 else:
                                     space_url = msg.content.strip()
                                     async with aiohttp.ClientSession() as session:
@@ -149,8 +176,17 @@ def myStyle(log_queue):
                                         ) as response:
                                             if response.status < 400:
                                                 print(f"{space_url} ping success")
+                                                log_queue.put(
+                                                    (
+                                                        "info",
+                                                        f"{space_url} ping success",
+                                                    )
+                                                )
                                             else:
                                                 print(f"{space_url} ping fail")
+                                                log_queue.put(
+                                                    ("error", f"{space_url} ping fail")
+                                                )
 
     client.run(os.environ.get("bot_token"))
 
